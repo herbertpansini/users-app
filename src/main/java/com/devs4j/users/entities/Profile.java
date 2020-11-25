@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +30,10 @@ public class Profile  implements Serializable {
 	
 	@Column(name = "birth_date")
 	private Date birthDate;
+	
+	@OneToOne
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User user;
 
 	public Integer getId() {
 		return id;
@@ -48,6 +54,10 @@ public class Profile  implements Serializable {
 	public String getLastName() {
 		return lastName;
 	}
+	
+	public User getUser() {
+		return this.user;
+	}
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -59,6 +69,10 @@ public class Profile  implements Serializable {
 
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
@@ -84,5 +98,5 @@ public class Profile  implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
-	}
+	}	
 }

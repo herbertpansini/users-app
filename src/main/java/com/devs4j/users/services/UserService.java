@@ -1,6 +1,7 @@
 package com.devs4j.users.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -25,12 +26,18 @@ public class UserService {
 	public User getUserById(Integer id) {
 		return this.userRepository.findById(id).orElse(null);
 	}
-	
+
+	@Cacheable("users")
 	public User getUserByUsername(String username) {
 		return this.userRepository.findByUsername(username).orElse(null);
 	}
 	
 	public User getUserByUsernameByPassword(String username, String password) {
 		return this.userRepository.findByUsernameAndPassword(username, password).orElseThrow(()-> new ResponseStatusException(HttpStatus.NO_CONTENT, String.format("User %s not found", username)));
+	}
+	
+	public void deleteUserByUsername(String username) {
+		User user = this.getUserByUsername(username);
+		this.userRepository.delete(user);
 	}
 }

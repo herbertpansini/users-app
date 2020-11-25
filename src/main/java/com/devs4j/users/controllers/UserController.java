@@ -1,9 +1,11 @@
 package com.devs4j.users.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,4 +46,12 @@ public class UserController {
 	public ResponseEntity<User> authenticate(@RequestBody User user) {
 		return new ResponseEntity<User>(this.userService.getUserByUsernameByPassword(user.getUserName(), user.getPassword()), HttpStatus.OK);
 	}
+	
+	@DeleteMapping("/{username}")
+	@CacheEvict("users")
+	public ResponseEntity<Void> deleteUserByUsername(@PathVariable("username") String username) {
+		this.userService.deleteUserByUsername(username);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
 }
