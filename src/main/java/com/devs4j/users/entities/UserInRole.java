@@ -16,6 +16,14 @@ public class UserInRole implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
+	public UserInRole() {
+	}
+
+	public UserInRole(User user, Role role) {
+		this.user = user;
+		this.role = role;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

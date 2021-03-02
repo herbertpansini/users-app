@@ -11,6 +11,6 @@ import com.devs4j.users.entities.Profile;
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile, Integer> {
 	
-	@Query("SELECT p FROM Profile WHERE p.user.id=?1 AND id=?2")
+	@Query("SELECT p FROM Profile p WHERE p.user.id=?1 AND id=?2")
 	Optional<Profile> findByUserIdAndProfileId(Integer userId, Integer profileId);
 }
